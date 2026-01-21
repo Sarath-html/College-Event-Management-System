@@ -1,0 +1,55 @@
+
+HOW TO RUN THE PHP/MYSQL PROJECT (XAMPP VERSION)
+
+Note: This React version is for visual representation. 
+For your BSc submission, follow these folder structure steps for the PHP version:
+
+1. Create a folder in xampp/htdocs/ named "college_management"
+2. Create the Database (MySQL):
+   - Open phpMyAdmin
+   - Create database: `college_db`
+   - Run these SQL queries:
+
+   CREATE TABLE users (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     name VARCHAR(100),
+     email VARCHAR(100) UNIQUE,
+     password VARCHAR(255),
+     role ENUM('admin', 'coordinator', 'student')
+   );
+
+   CREATE TABLE events (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     title VARCHAR(100),
+     description TEXT,
+     date DATE,
+     status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending'
+   );
+
+   CREATE TABLE registrations (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     user_id INT,
+     event_id INT,
+     FOREIGN KEY (user_id) REFERENCES users(id),
+     FOREIGN KEY (event_id) REFERENCES events(id)
+   );
+
+3. File Structure for PHP Project:
+   - index.php (Login Page)
+   - db.php (Database Connection)
+   - admin_dashboard.php
+   - coordinator_dashboard.php
+   - student_dashboard.php
+   - style.css
+
+4. Credentials to add to DB:
+   INSERT INTO users (name, email, password, role) VALUES 
+   ('Admin User', 'admin@test.com', 'admin123', 'admin'),
+   ('Coordinator', 'club@test.com', 'club123', 'coordinator'),
+   ('Student', 'stu@test.com', 'stu123', 'student');
+
+5. Logic summary for VIVA:
+   - PHP handles the session-based login.
+   - Admin updates the 'status' column in 'events' table.
+   - Student inserts rows into 'registrations' table.
+   - SQL JOINs are used to display which student registered for which event.
